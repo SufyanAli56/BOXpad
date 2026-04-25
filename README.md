@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Front-End Screening Assignment
 
-## Getting Started
+This project demonstrates UI implementation accuracy, component architecture quality, responsiveness, API integration skills, and code clarity.
 
-First, run the development server:
+## 🎯 Features Implemented
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **UI Components**: Reusable, modular components with clean architecture
+- **API Integration**: Live data fetching from JSONPlaceholder API
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **TypeScript**: Full type safety throughout the application
+- **Loading States**: Proper loading and error handling
+- **Modern React**: Using React 19 with Next.js 16
+
+## 🚀 Getting Started
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🏗️ Project Structure
+
+```
+assignment/
+├── app/
+│   ├── components/          # Reusable UI components
+│   │   ├── ui/             # Basic UI components
+│   │   ├── layout/         # Layout components
+│   │   └── features/       # Feature-specific components
+│   ├── lib/                # Utilities and API functions
+│   ├── types/              # TypeScript type definitions
+│   └── globals.css         # Global styles
+├── public/                 # Static assets
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔌 APIs Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **JSONPlaceholder**: https://jsonplaceholder.typicode.com
+  - Posts endpoint for blog-style content
+  - Users endpoint for user profiles
+  - Comments endpoint for interactive features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Design Implementation
 
-## Learn More
+The application implements:
+- Clean, modern UI with proper spacing and typography
+- Responsive grid layouts
+- Loading states and error handling
+- Interactive components with hover states
+- Accessible design patterns
 
-To learn more about Next.js, take a look at the following resources:
+## 🧪 Key Features Demonstrated
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Component Architecture**
+   - Reusable UI components
+   - Proper separation of concerns
+   - TypeScript interfaces for props
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **API Integration**
+   - Async data fetching
+   - Loading and error states
+   - Data transformation and display
 
-## Deploy on Vercel
+3. **State Management**
+   - React hooks for local state
+   - Proper data flow patterns
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Code Quality**
+   - Clean folder structure
+   - Meaningful naming conventions
+   - Type safety with TypeScript
+   - Minimal but clear comments
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📱 Responsive Design
+
+The application is fully responsive and works across:
+- Mobile devices (320px+)
+- Tablets (768px+)
+- Desktop (1024px+)
+
+## 🔧 Technologies Used
+
+- **Framework**: Next.js 16.2.4
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI**: React 19.2.4
+- **API**: JSONPlaceholder (dummy data)
+
+## 📝 Assumptions Made
+
+1. Used JSONPlaceholder API as the primary data source
+2. Implemented a blog-style layout to showcase various UI components
+3. Added loading states and error handling for better UX
+4. Used Tailwind CSS for rapid, consistent styling
+5. Focused on component reusability and clean architecture
+
+## 🚀 Deployment
+
+This project can be easily deployed to:
+- **Vercel**: `vercel --prod`
+- **Netlify**: Build command: `npm run build`, Publish directory: `out`
+
+## 📊 Performance Considerations
+
+- Optimized images with Next.js Image component
+- Efficient API calls with proper caching
+- Minimal bundle size with tree-shaking
+- Fast loading with Next.js optimizations
