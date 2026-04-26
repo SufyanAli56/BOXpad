@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { User, Comment } from './types';
-import { usersApi, commentsApi } from './lib/api';
+import { chatApi } from './lib/api';
 
 // Mock chat data structure
 interface ChatMessage {
@@ -37,8 +37,8 @@ export default function Home() {
     const loadData = async () => {
       try {
         const [usersData, commentsData] = await Promise.all([
-          usersApi.getAll(),
-          commentsApi.getAll()
+          chatApi.getAllUsers(),
+          chatApi.getAllMessages()
         ]);
         setUsers(usersData);
         setComments(commentsData);
@@ -125,7 +125,7 @@ export default function Home() {
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium">Contacts</a>
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium">AI Employees</a>
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium">Workflows</a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 font-medium">Campaigns</a>
+            <a href="/api-demo" className="text-blue-600 hover:text-blue-700 font-medium">API Demo</a>
           </nav>
         </div>
         <div className="ml-auto flex items-center space-x-3">
