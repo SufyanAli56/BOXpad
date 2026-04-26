@@ -4,9 +4,11 @@ import { useState } from 'react';
 
 interface UserChatListProps {
   className?: string;
+  onChatSelect?: (chatId: number) => void;
+  selectedChatId?: number;
 }
 
-export default function UserChatList({ className = '' }: UserChatListProps) {
+export default function UserChatList({ className = '', onChatSelect, selectedChatId = 1 }: UserChatListProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Conversation data matching the image exactly
@@ -18,7 +20,7 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatarColor: 'bg-purple-500',
       message: 'Oh my god! 😊 I try it ASAP, thank...',
       time: '23:03',
-      selected: true
+      unread: false
     },
     {
       id: 2,
@@ -26,7 +28,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'E',
       avatarColor: 'bg-yellow-500',
       message: 'Good Evening, Emily! Hope you are...',
-      time: '23:30'
+      time: '23:30',
+      unread: false
     },
     {
       id: 3,
@@ -34,7 +37,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'F',
       avatarColor: 'bg-blue-500',
       message: 'Thank you for signing up Frank! It t...',
-      time: '22:00'
+      time: '22:00',
+      unread: false
     },
     {
       id: 4,
@@ -42,7 +46,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'G',
       avatarColor: 'bg-orange-500',
       message: 'I am sending you the report right a...',
-      time: '20:43'
+      time: '20:43',
+      unread: false
     },
     {
       id: 5,
@@ -50,7 +55,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'H',
       avatarColor: 'bg-yellow-400',
       message: 'Thank you for filling out our survey!',
-      time: '17:37'
+      time: '17:37',
+      unread: false
     },
     {
       id: 6,
@@ -58,7 +64,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'I',
       avatarColor: 'bg-orange-500',
       message: 'I will update you soon Isabella!',
-      time: '16:35'
+      time: '16:35',
+      unread: false
     },
     {
       id: 7,
@@ -66,7 +73,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'J',
       avatarColor: 'bg-purple-400',
       message: 'Hello James! Let\'s collaborate on...',
-      time: '15:44'
+      time: '15:44',
+      unread: false
     },
     {
       id: 8,
@@ -74,7 +82,8 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'K',
       avatarColor: 'bg-yellow-500',
       message: 'Hi Katherine, looking forward to our...',
-      time: '09:02'
+      time: '09:02',
+      unread: false
     },
     {
       id: 9,
@@ -82,9 +91,16 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
       avatar: 'L',
       avatarColor: 'bg-blue-400',
       message: 'Hey Lucas! Ready for the holiday...',
-      time: 'Yesterday'
+      time: 'Yesterday',
+      unread: false
     }
   ];
+
+  const handleChatClick = (chatId: number) => {
+    if (onChatSelect) {
+      onChatSelect(chatId);
+    }
+  };
 
   return (
     <div className={`w-80 bg-white flex flex-col border-r border-gray-200 ${className}`}>
@@ -141,8 +157,9 @@ export default function UserChatList({ className = '' }: UserChatListProps) {
         {conversations.map((conversation) => (
           <div
             key={conversation.id}
+            onClick={() => handleChatClick(conversation.id)}
             className={`px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 ${
-              conversation.selected ? 'bg-blue-50' : ''
+              selectedChatId === conversation.id ? 'bg-blue-50' : ''
             }`}
           >
             <div className="flex items-start space-x-3">

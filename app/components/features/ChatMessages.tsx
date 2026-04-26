@@ -2,20 +2,135 @@
 
 interface ChatMessagesProps {
   className?: string;
+  selectedChatId?: number;
 }
 
-export default function ChatMessages({ className = '' }: ChatMessagesProps) {
+export default function ChatMessages({ className = '', selectedChatId = 1 }: ChatMessagesProps) {
+  // Chat data for different users
+  const chatData = {
+    1: {
+      name: 'Olivia McKinsey',
+      avatar: 'O',
+      avatarColor: 'bg-purple-500',
+      status: 'Active now',
+      messages: [
+        {
+          id: 1,
+          type: 'incoming',
+          message: 'Hi, I recently joined FitLife the past 2 weeks and I\'m trying to access my workout plan, but I can\'t login. Can you help?',
+          time: '23:06',
+          read: true
+        },
+        {
+          id: 2,
+          type: 'outgoing',
+          message: 'Hello Olivia, 👋 I\'m Michael, your AI customer support assistant. Let\'s fix this quickly. Could you please share the email address?',
+          time: '23:06',
+          read: true
+        },
+        {
+          id: 3,
+          type: 'incoming',
+          message: 'Yes, it\'s olivia.mckinsey@gmail.com',
+          time: '23:06',
+          read: true
+        },
+        {
+          id: 4,
+          type: 'outgoing',
+          message: 'Thanks! I see the issue. Your reset wasn\'t completed. I\'ve sent a new link - please check your inbox.',
+          time: '23:07',
+          read: true
+        },
+        {
+          id: 5,
+          type: 'incoming',
+          message: 'Perfect! 🎉 Your plan is ready under "My Programs". Since you\'re starting out, I suggest starting with our 3 week results and is 20% off here: www.FitLife.com/Premium',
+          time: '23:08',
+          read: true
+        },
+        {
+          id: 6,
+          type: 'outgoing',
+          message: 'Oh my god! 😊 I try it ASAP, thank you so much!',
+          time: '23:08',
+          read: true
+        },
+        {
+          id: 7,
+          type: 'incoming',
+          message: 'I see it, resetting now...',
+          time: '23:17',
+          read: true
+        },
+        {
+          id: 8,
+          type: 'outgoing',
+          message: 'Done! I\'m logged in. Thanks!',
+          time: '23:20',
+          read: true
+        }
+      ]
+    },
+    2: {
+      name: 'Sara Williams',
+      avatar: 'E',
+      avatarColor: 'bg-yellow-500',
+      status: 'Last seen 2 hours ago',
+      messages: [
+        {
+          id: 1,
+          type: 'incoming',
+          message: 'Good Evening, Emily! Hope you are doing well.',
+          time: '23:30',
+          read: true
+        },
+        {
+          id: 2,
+          type: 'outgoing',
+          message: 'Hi Sara! I\'m doing great, thank you for asking. How can I help you today?',
+          time: '23:31',
+          read: true
+        }
+      ]
+    },
+    3: {
+      name: 'Frank Thompson',
+      avatar: 'F',
+      avatarColor: 'bg-blue-500',
+      status: 'Online',
+      messages: [
+        {
+          id: 1,
+          type: 'outgoing',
+          message: 'Thank you for signing up Frank! It\'s great to have you with us.',
+          time: '22:00',
+          read: true
+        },
+        {
+          id: 2,
+          type: 'incoming',
+          message: 'Thanks for the warm welcome! Looking forward to getting started.',
+          time: '22:01',
+          read: true
+        }
+      ]
+    }
+  };
+
+  const currentChat = chatData[selectedChatId as keyof typeof chatData] || chatData[1];
+
   return (
     <div className={`flex-1 bg-white flex flex-col ${className}`}>
       {/* Chat Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-medium text-sm">O</span>
+          <div className={`w-8 h-8 ${currentChat.avatarColor} rounded-full flex items-center justify-center`}>
+            <span className="text-white font-medium text-sm">{currentChat.avatar}</span>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-900">Olivia McKinsey</h3>
-            <p className="text-xs text-gray-500">Active now</p>
+            <h3 className="text-sm font-medium text-gray-900">{currentChat.name}</h3>
+            <p className="text-xs text-gray-500">{currentChat.status}</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -44,100 +159,44 @@ export default function ChatMessages({ className = '' }: ChatMessagesProps) {
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {/* Incoming Message */}
-        <div className="flex items-start space-x-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-medium text-sm">O</span>
+        {currentChat.messages.map((message) => (
+          <div key={message.id}>
+            {message.type === 'incoming' ? (
+              <div className="flex items-start space-x-3">
+                <div className={`w-8 h-8 ${currentChat.avatarColor} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  <span className="text-white font-medium text-sm">{currentChat.avatar}</span>
+                </div>
+                <div className="flex-1">
+                  <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
+                    <p className="text-sm text-gray-900">{message.message}</p>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">{message.time}</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-start space-x-3 justify-end">
+                  <div className="flex flex-col items-end">
+                    {/* Time and tick on left side of message */}
+                    <div className="flex items-center space-x-1 mb-1 mr-auto">
+                      {message.read && (
+                        <svg className="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.71 7.21a1 1 0 00-1.42 0l-7.45 7.46-3.13-3.14A1 1 0 105.29 12.95l3.84 3.84a1 1 0 001.42 0l8.16-8.16a1 1 0 000-1.42z"/>
+                          <path d="M22.24 7.21a1 1 0 00-1.42 0L9.88 18.15a1 1 0 001.42 1.42L22.24 8.63a1 1 0 000-1.42z"/>
+                        </svg>
+                      )}
+                      <p className="text-xs text-gray-500">{message.time}</p>
+                    </div>
+                    {/* Message bubble */}
+                    <div className="bg-blue-500 rounded-lg px-3 py-2 max-w-xs">
+                      <p className="text-sm text-white">{message.message}</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          <div className="flex-1">
-            <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-gray-900">Hi, I recently joined FitLife the past 2 weeks and I'm trying to access my workout plan, but I can't login. Can you help?</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">23:06</p>
-          </div>
-        </div>
-
-        {/* Outgoing Message */}
-        <div className="flex items-start space-x-3 justify-end">
-          <div className="flex-1 flex justify-end">
-            <div className="bg-blue-500 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-white">Hello Olivia, 👋 I'm Michael, your AI customer support assistant. Let's fix this quickly. Could you please share the email address?</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <p className="text-xs text-gray-500">23:06</p>
-        </div>
-
-        {/* More messages... */}
-        <div className="flex items-start space-x-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-medium text-sm">O</span>
-          </div>
-          <div className="flex-1">
-            <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-gray-900">Yes, it's olivia.mckinsey@gmail.com</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">23:06</p>
-          </div>
-        </div>
-
-        <div className="flex items-start space-x-3 justify-end">
-          <div className="flex-1 flex justify-end">
-            <div className="bg-blue-500 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-white">Thanks! I see the issue. Your reset wasn't completed. I've sent a new link - please check your inbox.</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <p className="text-xs text-gray-500">23:07</p>
-        </div>
-
-        <div className="flex items-start space-x-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-medium text-sm">O</span>
-          </div>
-          <div className="flex-1">
-            <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-gray-900">Perfect! 🎉 Your plan is ready under "My Programs". Since you're starting out, I suggest starting with our 3 week results and is 20% off here: www.FitLife.com/Premium</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">23:08</p>
-          </div>
-        </div>
-
-        <div className="flex items-start space-x-3 justify-end">
-          <div className="flex-1 flex justify-end">
-            <div className="bg-blue-500 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-white">Oh my god! 😊 I try it ASAP, thank you so much!</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <p className="text-xs text-gray-500">23:08</p>
-        </div>
-
-        <div className="flex items-start space-x-3">
-          <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-medium text-sm">O</span>
-          </div>
-          <div className="flex-1">
-            <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-gray-900">I see it, resetting now...</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">23:17</p>
-          </div>
-        </div>
-
-        <div className="flex items-start space-x-3 justify-end">
-          <div className="flex-1 flex justify-end">
-            <div className="bg-blue-500 rounded-lg px-3 py-2 max-w-xs">
-              <p className="text-sm text-white">Done! I'm logged in. Thanks!</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <p className="text-xs text-gray-500">23:20</p>
-        </div>
+        ))}
       </div>
 
       {/* Message Input */}
