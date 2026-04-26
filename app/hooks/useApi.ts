@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ApiState } from '../types';
+import { postsApi, usersApi } from '../lib/api';
 
 // Generic hook for API calls
 export function useApi<T>(
@@ -39,21 +40,17 @@ export function useApi<T>(
 
 // Specific hooks for common API calls
 export function usePosts() {
-  const { postsApi } = require('../lib/api');
   return useApi(() => postsApi.getAll());
 }
 
 export function useUsers() {
-  const { usersApi } = require('../lib/api');
   return useApi(() => usersApi.getAll());
 }
 
 export function usePost(id: number) {
-  const { postsApi } = require('../lib/api');
   return useApi(() => postsApi.getById(id), [id]);
 }
 
 export function useUser(id: number) {
-  const { usersApi } = require('../lib/api');
   return useApi(() => usersApi.getById(id), [id]);
 }

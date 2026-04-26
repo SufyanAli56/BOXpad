@@ -1,4 +1,4 @@
-// API Response Types
+// JSONPlaceholder API Response Types
 export interface Post {
   id: number;
   title: string;
@@ -38,6 +38,37 @@ export interface Comment {
   body: string;
 }
 
+// DummyJSON API Types
+export interface DummyUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  username: string;
+  image: string;
+  address: {
+    address: string;
+    city: string;
+    state: string;
+    stateCode: string;
+    postalCode: string;
+  };
+  company: {
+    name: string;
+    title: string;
+  };
+}
+
+// Reqres API Types
+export interface ReqresUser {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
+
 // Component Props Types
 export interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -64,4 +95,22 @@ export interface ApiState<T> {
   data: T | null;
   loading: boolean;
   error: string | null;
+}
+
+// Chat Types
+export interface ChatMessage {
+  id: number;
+  senderId: number;
+  content: string;
+  timestamp: string;
+  type: 'text' | 'system';
+}
+
+export interface ChatConversation {
+  id: number;
+  participantId: number;
+  lastMessage: string;
+  timestamp: string;
+  unread: boolean;
+  status: 'online' | 'offline' | 'away';
 }
