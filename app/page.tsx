@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { User, Comment } from './types';
 import { chatApi } from './lib/api';
-import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
-import ChatArea from './components/features/ChatArea';
+import UserChatList from './components/features/UserChatList';
+import ChatMessages from './components/features/ChatMessages';
 import DetailsPanel from './components/layout/DetailsPanel';
 import Loading from './components/ui/Loading';
 
@@ -40,9 +40,9 @@ export default function Home() {
 
   return (
     <div className="h-screen flex bg-gray-50">
-      <Header />
       <Sidebar />
-      <ChatArea />
+      <UserChatList />
+      <ChatMessages />
       <DetailsPanel />
     </div>
   );
