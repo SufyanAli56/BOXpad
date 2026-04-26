@@ -1,18 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { User, Comment } from './types';
 import { usersApi, commentsApi } from './lib/api';
-import { useProgressiveLoading } from './hooks/useProgressiveLoading';
-import AnimatedSection from './components/ui/AnimatedSection';
-import { 
-  SidebarSkeleton, 
-  HeaderSkeleton, 
-  MessageSkeleton, 
-  UserDetailsSkeleton,
-  ConversationSkeleton 
-} from './components/ui/SkeletonLoader';
-import { LoadingOverlay } from './components/ui/ProgressBar';
 
 // Mock chat data structure
 interface ChatMessage {
@@ -42,44 +32,28 @@ export default function Home() {
   const [users, setUsers] = useState<User[] | null>(null);
   const [comments, setComments] = useState<Comment[] | null>(null);
 
-  // Progressive loading configuration
-  const { loadingSections, getSectionState, retrySection, overallLoading } = useProgressiveLoading({
-    sections: [
-      { id: 'header', name: 'Header', delay: 0 },
-      { id: 'sidebar', name: 'Conversations', delay: 500 },
-      { id: 'chat', name: 'Messages', delay: 1000 },
-      { id: 'details', name: 'User Details', delay: 1500 },
-    ],
-    onSectionLoad: async (sectionId) => {
-      switch (sectionId) {
-        case 'header':
-          // Simulate header data loading
-          await new Promise(resolve => setTimeout(resolve, 800));
-          break;
-        case 'sidebar':
-          const usersData = await usersApi.getAll();
-          setUsers(usersData);
-          break;
-        case 'chat':
-          const commentsData = await commentsApi.getAll();
-          setComments(commentsData);
-          if (!selectedConversation && users && users.length > 0) {
-            setSelectedConversation(users[0].id);
-          }
-          break;
-        case 'details':
-          // Details panel loads after chat
-          await new Promise(resolve => setTimeout(resolve, 300));
-          break;
+  // Load data on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [usersData, commentsData] = await Promise.all([
+          usersApi.getAll(),
+          commentsApi.getAll()
+        ]);
+        setUsers(usersData);
+        setComments(commentsData);
+        
+        // Set first user as selected conversation
+        if (usersData && usersData.length > 0) {
+          setSelectedConversation(usersData[0].id);
+        }
+      } catch (error) {
+        console.error('Failed to load data:', error);
       }
-    },
-  });
+    };
 
-  // Calculate loading progress
-  const loadingProgress = useMemo(() => {
-    const loadedSections = loadingSections.filter(s => s.loaded).length;
-    return (loadedSections / loadingSections.length) * 100;
-  }, [loadingSections]);
+    loadData();
+  }, []);
 
   // Create mock conversations from users
   const conversations: ChatConversation[] = useMemo(() => {
@@ -136,14 +110,7 @@ export default function Home() {
   };
 
   return (
-    <>
-      <LoadingOverlay 
-        isLoading={overallLoading} 
-        progress={loadingProgress}
-        message="Loading Chat Interface"
-      />
-      
-      <div className="h-screen flex bg-gray-50">
+    <div className="h-screen flex bg-gray-50">
       {/* Top Header */}
       <div className="absolute top-0 left-0 right-0 h-14 bg-white border-b border-gray-200 flex items-center px-4 z-10">
         <div className="flex items-center space-x-4">
@@ -481,6 +448,5 @@ export default function Home() {
         </div>
       )}
     </div>
-    </>
   );
 }
