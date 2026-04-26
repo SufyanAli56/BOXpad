@@ -5,25 +5,25 @@ interface ConversationListProps {
 }
 
 export default function ConversationList({ searchTerm }: ConversationListProps) {
-  // Mock conversations data - in a real app this would come from props or context
+  // Mock conversations data matching the image
   const conversations = [
     {
       id: 1,
       name: 'Olivia McKinsey',
       avatar: 'O',
       avatarColor: 'bg-purple-500',
-      message: 'Hi, I recently joined FitLife the past 2 weeks and I\'m trying to access my workout plan, but I can\'t login. Can you help?',
+      message: 'Oh my god! 😊 I try it ASAP, thank...',
       time: '23:03',
-      unread: true,
+      unread: false,
       selected: true
     },
     {
       id: 2,
       name: 'Sara Williams',
-      avatar: 'S',
+      avatar: 'E',
       avatarColor: 'bg-yellow-500',
-      message: 'Good Evening, Emily! Hope you are doing well.',
-      time: '22:30',
+      message: 'Good Evening, Emily! Hope you are...',
+      time: '23:30',
       unread: false,
       selected: false
     },
@@ -32,8 +32,8 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       name: 'Frank Thompson',
       avatar: 'F',
       avatarColor: 'bg-blue-500',
-      message: 'Thank you for helping me with my inquiry. I hope it is...',
-      time: '21:06',
+      message: 'Thank you for signing up Frank! It t...',
+      time: '22:00',
       unread: false,
       selected: false
     },
@@ -41,8 +41,8 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       id: 4,
       name: 'Grace Lee',
       avatar: 'G',
-      avatarColor: 'bg-red-500',
-      message: 'I am sending you the report right now.',
+      avatarColor: 'bg-orange-500',
+      message: 'I am sending you the report right a...',
       time: '20:43',
       unread: false,
       selected: false
@@ -62,7 +62,7 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       name: 'Isabella Martinez',
       avatar: 'I',
       avatarColor: 'bg-orange-500',
-      message: 'Hello Isabella, you have been selected...',
+      message: 'I will update you soon Isabella!',
       time: '16:35',
       unread: false,
       selected: false
@@ -72,7 +72,7 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       name: 'James Brown',
       avatar: 'J',
       avatarColor: 'bg-purple-400',
-      message: 'Hello James! Let\'s schedule a call...',
+      message: 'Hello James! Let\'s collaborate on...',
       time: '15:44',
       unread: false,
       selected: false
@@ -84,6 +84,16 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       avatarColor: 'bg-yellow-500',
       message: 'Hi Katherine, looking forward to our...',
       time: '09:02',
+      unread: false,
+      selected: false
+    },
+    {
+      id: 9,
+      name: 'Lucie Green',
+      avatar: 'L',
+      avatarColor: 'bg-blue-400',
+      message: 'Hey Lucie! Ready for the holiday...',
+      time: 'Yesterday',
       unread: false,
       selected: false
     }
@@ -98,25 +108,20 @@ export default function ConversationList({ searchTerm }: ConversationListProps) 
       {filteredConversations.map((conversation) => (
         <div
           key={conversation.id}
-          className={`p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-            conversation.selected ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+          className={`px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 ${
+            conversation.selected ? 'bg-blue-50' : ''
           }`}
         >
           <div className="flex items-start space-x-3">
-            <div className={`w-10 h-10 ${conversation.avatarColor} rounded-full flex items-center justify-center`}>
+            <div className={`w-10 h-10 ${conversation.avatarColor} rounded-full flex items-center justify-center flex-shrink-0`}>
               <span className="text-white font-medium text-sm">{conversation.avatar}</span>
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-1">
-                <h4 className="text-sm font-medium text-gray-900">{conversation.name}</h4>
-                <span className="text-xs text-gray-500">{conversation.time}</span>
+                <h4 className="text-sm font-medium text-gray-900 truncate">{conversation.name}</h4>
+                <span className="text-xs text-gray-500 ml-2 flex-shrink-0">{conversation.time}</span>
               </div>
-              <p className="text-xs text-gray-600 line-clamp-2">{conversation.message}</p>
-              {conversation.unread && (
-                <div className="mt-2">
-                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                </div>
-              )}
+              <p className="text-sm text-gray-600 truncate">{conversation.message}</p>
             </div>
           </div>
         </div>
