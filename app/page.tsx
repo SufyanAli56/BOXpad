@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col bg-gray-50">
       <Header onMenuClick={() => setShowSidebar(!showSidebar)} />
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Sidebar - Hidden on mobile, shown on tablet+ */}
         <Sidebar 
           className={`${showSidebar ? 'block' : 'hidden'} lg:block absolute lg:relative z-30 h-full`}
@@ -73,34 +73,29 @@ export default function Home() {
         <UserChatList 
           onChatSelect={handleChatSelect} 
           selectedChatId={selectedChatId}
-          className={`${showUserList ? 'block' : 'hidden'} lg:block`}
+          className={`${showUserList ? 'block' : 'hidden'} lg:block flex-shrink-0`}
         />
         
-        {/* Chat Messages - Full width on mobile when open */}
-        <ChatMessages 
-          selectedChatId={selectedChatId}
-          onBackClick={handleBackToList}
-          onDetailsClick={toggleDetails}
-          className={`${!showUserList ? 'block' : 'hidden'} lg:block`}
-        />
-        
-        {/* Details Panel - Hidden on mobile/tablet, shown on desktop */}
-        <DetailsPanel 
-          className={`${showDetails ? 'block' : 'hidden'} xl:block absolute xl:relative right-0 z-20 h-full`}
-          onClose={() => setShowDetails(false)}
-        />
+        {/* Chat + Details Container - Vertical scroll on mobile, horizontal on desktop */}
+        <div className={`${!showUserList ? 'flex' : 'hidden'} lg:flex flex-1 overflow-hidden`}>
+          {/* Scrollable container for mobile */}
+          <div className="flex flex-col lg:flex-row flex-1 overflow-y-auto lg:overflow-hidden">
+            {/* Chat Messages */}
+            <ChatMessages 
+              selectedChatId={selectedChatId}
+              onBackClick={handleBackToList}
+              onDetailsClick={toggleDetails}
+              className="flex-shrink-0 lg:flex-1"
+            />
+            
+            {/* Details Panel - Below chat on mobile (scroll to see), side by side on desktop */}
+            <DetailsPanel 
+              className="flex-shrink-0"
+              onClose={() => setShowDetails(false)}
+            />
+          </div>
+        </div>
       </div>
-      
-      {/* Overlay for mobile sidebar/details */}
-      {(showSidebar || showDetails) && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
-          onClick={() => {
-            setShowSidebar(false);
-            setShowDetails(false);
-          }}
-        />
-      )}
     </div>
   );
 }

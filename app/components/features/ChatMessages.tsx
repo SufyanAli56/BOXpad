@@ -123,7 +123,7 @@ export default function ChatMessages({ className = '', selectedChatId = 1, onBac
   const currentChat = chatData[selectedChatId as keyof typeof chatData] || chatData[1];
 
   return (
-    <div className={`flex-1 bg-white flex flex-col ${className}`}>
+    <div className={`w-full lg:flex-1 bg-white flex flex-col relative ${className}`}>
       {/* Chat Header */}
       <div className="flex items-center justify-between px-3 md:px-4 py-3 border-b border-gray-200">
         <div className="flex items-center space-x-3">
@@ -222,7 +222,7 @@ export default function ChatMessages({ className = '', selectedChatId = 1, onBac
       </div>
 
       {/* Message Input */}
-      <div className="border-t border-gray-200 p-3 md:p-4">
+      <div className="border-t border-gray-200 p-3 md:p-4 bg-white relative z-10">
         <div className="flex items-center space-x-2 md:space-x-3">
           <button className="hidden md:block p-2 hover:bg-gray-100 rounded-full">
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

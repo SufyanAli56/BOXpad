@@ -104,7 +104,7 @@ export default function UserChatList({ className = '', onChatSelect, selectedCha
   };
 
   return (
-    <div className={`w-full md:w-72 lg:w-80 bg-white flex flex-col border-r border-gray-200 ${className}`}>
+    <div className={`w-full md:w-64 lg:w-72 bg-white flex flex-col border-r border-gray-200 ${className}`}>
       {/* Header with Michael Johnson */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
         <div className="flex items-center space-x-3">
