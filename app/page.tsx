@@ -15,6 +15,9 @@ export default function Home() {
   const [users, setUsers] = useState<User[] | null>(null);
   const [comments, setComments] = useState<Comment[] | null>(null);
   const [selectedChatId, setSelectedChatId] = useState(1);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [showUserList, setShowUserList] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
 
   // Load data on component mount
   useEffect(() => {
@@ -38,6 +41,18 @@ export default function Home() {
 
   const handleChatSelect = (chatId: number) => {
     setSelectedChatId(chatId);
+    // On mobile, hide user list and show chat when a chat is selected
+    if (window.innerWidth < 1024) {
+      setShowUserList(false);
+    }
+  };
+
+  const handleBackToList = () => {
+    setShowUserList(true);
+  };
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
   };
 
   if (loading) {
@@ -46,16 +61,46 @@ export default function Home() {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
-      <Header />
-      <div className="flex-1 flex">
-        <Sidebar />
+      <Header onMenuClick={() => setShowSidebar(!showSidebar)} />
+      <div className="flex-1 flex overflow-hidden">
+        {/* Sidebar - Hidden on mobile, shown on tablet+ */}
+        <Sidebar 
+          className={`${showSidebar ? 'block' : 'hidden'} lg:block absolute lg:relative z-30 h-full`}
+          onClose={() => setShowSidebar(false)}
+        />
+        
+        {/* User Chat List - Hidden on mobile when chat is open */}
         <UserChatList 
           onChatSelect={handleChatSelect} 
           selectedChatId={selectedChatId}
+          className={`${showUserList ? 'block' : 'hidden'} lg:block`}
         />
-        <ChatMessages selectedChatId={selectedChatId} />
-        <DetailsPanel />
+        
+        {/* Chat Messages - Full width on mobile when open */}
+        <ChatMessages 
+          selectedChatId={selectedChatId}
+          onBackClick={handleBackToList}
+          onDetailsClick={toggleDetails}
+          className={`${!showUserList ? 'block' : 'hidden'} lg:block`}
+        />
+        
+        {/* Details Panel - Hidden on mobile/tablet, shown on desktop */}
+        <DetailsPanel 
+          className={`${showDetails ? 'block' : 'hidden'} xl:block absolute xl:relative right-0 z-20 h-full`}
+          onClose={() => setShowDetails(false)}
+        />
       </div>
+      
+      {/* Overlay for mobile sidebar/details */}
+      {(showSidebar || showDetails) && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
+          onClick={() => {
+            setShowSidebar(false);
+            setShowDetails(false);
+          }}
+        />
+      )}
     </div>
   );
 }

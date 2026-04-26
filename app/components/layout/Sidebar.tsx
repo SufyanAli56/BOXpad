@@ -2,11 +2,21 @@
 
 interface SidebarProps {
   className?: string;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ className = '' }: SidebarProps) {
+export default function Sidebar({ className = '', onClose }: SidebarProps) {
   return (
-    <div className={`w-48 bg-white border-r border-gray-200 flex flex-col ${className}`}>
+    <div className={`w-48 md:w-56 bg-white border-r border-gray-200 flex flex-col ${className}`}>
+      {/* Close button for mobile */}
+      <div className="lg:hidden flex justify-end p-2 border-b border-gray-200">
+        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
       {/* Inbox Header */}
       <div className="p-3 border-b border-gray-200">
         <h1 className="text-base font-semibold text-gray-900 mb-3">Inbox</h1>
