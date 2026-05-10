@@ -1,0 +1,23 @@
+{
+  "name": "BOXpad - Modern Blog Platform",
+  "short_name": "BOXpad",
+  "description": "A modern blog application showcasing clean UI design, API integration, and responsive components.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
