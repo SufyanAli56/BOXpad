@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/navigation';
+import { createUserProfile, checkUserProfileExists } from '../lib/userProfile';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,13 +20,31 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        // Sign up the user
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
         });
+        
         if (error) throw error;
+
+        // If user is created and confirmed immediately (e.g., in development)
+        if (data.user && data.user.id) {
+          // Check if profile exists (trigger should have created it)
+          const profileExists = await checkUserProfileExists(data.user.id);
+          
+          // If profile doesn't exist, create it manually (fallback)
+          if (!profileExists) {
+            await createUserProfile(data.user.id, email);
+          }
+        }
+
         alert('Check your email for the confirmation link!');
       } else {
+        // Sign in the user
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
