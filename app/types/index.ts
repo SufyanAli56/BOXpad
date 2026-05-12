@@ -46,6 +46,8 @@ export interface UserProfile {
   full_name?: string;
   avatar_url?: string;
   bio?: string;
+  is_online?: boolean;
+  last_seen?: string;
   created_at: string;
   updated_at: string;
 }
